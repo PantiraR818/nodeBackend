@@ -1,6 +1,7 @@
-import { AllowNull, BelongsTo, Column, DataType, Model, Table, Unique } from "sequelize-typescript";
+import { AllowNull, BelongsTo, Column, DataType, HasMany, Model, Table, Unique } from "sequelize-typescript";
 import Question from "./question";
 import Form_type from "./form_type";
+import Question_select from "./question_select";
 
 @Table({
     tableName: 'option',
@@ -26,4 +27,7 @@ export default class Option extends Model {
 
     @Column(DataType.INTEGER)
     formtype_id!: number;
+
+    @HasMany(() => Question_select, { foreignKey: 'option_id' })
+    question_select!: Question_select[];
 }

@@ -10,6 +10,8 @@ routAcc_User.post("/login", middleware.middlewareCenter,acc_userController.login
 
 routAcc_User.put("/updateUser", middleware.middlewareCenter, acc_userController.update)
 
+routAcc_User.put("/updateFirst", middleware.middlewareCenter, acc_userController.updateFirst)
+
 routAcc_User.get("/getAccUser",middleware.middlewareCenter,acc_userController.getAccUser)
 
 export default routAcc_User;

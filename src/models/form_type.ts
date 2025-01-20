@@ -2,6 +2,8 @@ import { AllowNull, Column, DataType, HasMany, Model, Table, Unique } from "sequ
 import Question from "./question";
 import Interpre from "./interpre";
 import Guidance from "./guidance";
+import Save_data from "./save_data";
+import Option from "./option";
 
 @Table({
     tableName: 'form_type',
@@ -49,4 +51,11 @@ export default class Form_type extends Model {
 
     @HasMany(() => Guidance, { foreignKey: 'formtype_id' })
     guidance!: Guidance[];
+
+    @HasMany(() => Save_data, { foreignKey: 'formtype_id' })
+    save_data!: Save_data[];
+
+    @HasMany(() => Option, { foreignKey: 'formtype_id' })
+    option!: Option[];
+    
 }

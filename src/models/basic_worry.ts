@@ -1,5 +1,7 @@
-import { AllowNull, Column, DataType, HasMany, Model, Table, Unique } from "sequelize-typescript";
+import { AllowNull, BelongsTo, Column, DataType, HasMany, Model, Table, Unique } from "sequelize-typescript";
 import match_worry_fac from "./match_worry_fac";
+import Save_data from "./save_data";
+import Connern_Map from "./connern_fac_map";
 
 @Table({
     tableName: 'Basic_worry',
@@ -25,4 +27,6 @@ export default class basic_worry extends Model {
 
     @HasMany(() => match_worry_fac, { foreignKey: 'basic_worry_id' })
     match_worry_fac!: match_worry_fac[];
+
+
 }

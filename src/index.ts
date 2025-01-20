@@ -1,4 +1,4 @@
-import express from "express";
+import express, {Request, Response} from "express";
 import seq from "./db";
 import cors from 'cors';
 import routAcc_User from "./routes/acc_user.routes";
@@ -10,6 +10,8 @@ import rout_StatusUser from "./routes/status_user.routes";
 import rout_Interpre from "./routes/interpre.routes";
 import rout_Match_worry_fac_ from "./routes/match_worry_fac.routes";
 import rout_Guidancde from "./routes/guidance.routes";
+import rout_Save_data from "./routes/save_data.routes";
+// import authenticateToken from "./middleware/auth";
 const app = express();
 
 app.use(express.json());
@@ -22,6 +24,10 @@ app.use(function (req, res, next) {
     console.log('app -> middleware : ' + req.baseUrl);
     next();
 });
+
+// app.get('/protected', authenticateToken, (req: Request, res: Response) => {
+//     res.send({ msg: 'Access granted', user: req.user });
+// });
 
 app.get('/', (req, res) => {
     console.log('get');
@@ -37,6 +43,7 @@ app.use('/status_user', rout_StatusUser);
 app.use('/interpre', rout_Interpre);
 app.use('/matchWorry_Fac', rout_Match_worry_fac_);
 app.use('/guidance', rout_Guidancde);
+app.use('/save_data', rout_Save_data);
 
 
 seq.authenticate().then(() => {
@@ -44,7 +51,7 @@ seq.authenticate().then(() => {
     // ใช้ตอนที่จะสร้าง Table ใหม่ ค่อยมาเปิด Comment ตรงนี้ 
     // alter:true  เพิ่มโครงสร้างใหม่ โดยไม่ลบของเก่า
     // force:true ลบทุกอย่างแล้วสร้างใหม่ 
-    //  seq.sync({alter:true}).then(() => console.log('create tables \n <--------------------> \n ', seq.models));
+    // seq.sync({alter:true}).then(() => console.log('create tables \n <--------------------> \n ', seq.models));
 }).catch((error) => console.log('error: ', error));
 
 app.listen(8080, () => {

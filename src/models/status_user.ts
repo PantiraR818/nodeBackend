@@ -1,11 +1,12 @@
-import { AllowNull, Column, DataType, Model, Table, Unique } from "sequelize-typescript";
+import { AllowNull, Column, DataType, HasMany, Model, Table, Unique } from "sequelize-typescript";
+import Save_data from "./save_data";
 
 @Table({
-    tableName : 'Status_user',
-    timestamps : true
+    tableName: 'Status_user',
+    timestamps: true
 })
 
-export default class status_user extends Model{
+export default class status_user extends Model {
     @AllowNull(false)
     @Unique
     @Column(
@@ -19,4 +20,7 @@ export default class status_user extends Model{
         DataType.STRING
     )
     statusEng!: string
+
+    @HasMany(() => Save_data, { foreignKey: 'status_id' })
+    save_data!: Save_data[];
 }

@@ -1,4 +1,5 @@
-import { AllowNull, Column, DataType, Model, Table, Unique } from "sequelize-typescript";
+import { AllowNull, Column, DataType, HasMany, Model, Table, Unique } from "sequelize-typescript";
+import Save_data from "./save_data";
 enum Gender {
     MALE = "ชาย",
     FEMALE = "หญิง",
@@ -54,6 +55,9 @@ export default class Acc_user extends Model{
     )
     phone!:string
 
+
+    @HasMany(() => Save_data, { foreignKey: 'acc_id' })
+        save_data!: Save_data[];
 
 
 }
