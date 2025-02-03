@@ -33,6 +33,12 @@ export default class Save_data extends Model {
     )
     interpre_level!: string
 
+    @AllowNull(false)
+    @Column(
+        DataType.STRING
+    )
+    interpre_color!: string
+
     @Column(DataType.INTEGER)
     status_id!: number;
 
@@ -47,7 +53,5 @@ export default class Save_data extends Model {
 
     @HasMany(() => Conern_Fac_Map,{foreignKey: 'save_data_id'})
     concern_match!:Conern_Fac_Map;
-
-
 
 }

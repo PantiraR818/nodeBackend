@@ -9,5 +9,7 @@ rout_Save_data.get("/getSaveData", middleware.middlewareCenter,save_dataControll
 
 rout_Save_data.post("/save_data", middleware.middlewareCenter,save_dataController.save_data)
 
+rout_Save_data.get("/getHistory/:id_student", middleware.middlewareCenter,save_dataController.getHistory)
+
 
 export default rout_Save_data;

@@ -28,8 +28,8 @@ class acc_userController {
             })
             if (!findData) {
                 console.log("---1---")
-                const { name,id_student,faculty,phone } = req.body
-                const data = await Acc_user.create({ email,name,id_student,faculty,phone })
+                const { name, id_student, faculty, phone } = req.body
+                const data = await Acc_user.create({ email, name, id_student, faculty, phone })
                 res.status(200).send({ msg: "create success", res: data })
             } else {
                 console.log("---2---")
@@ -45,22 +45,25 @@ class acc_userController {
     async update(req: Request, res: Response) {
         try {
             const { email, name, id_student, birthday, gender, faculty, phone } = req.body
-            const data = await Acc_user.update(
-                // update อะไร และ ที่ไหน 
-                {
-                    name,
-                    id_student,
-                    birthday,
-                    gender,
-                    faculty,
-                    phone
-                },
-                {
-                    where: {
-                        email: email
+            if (!email || !name || !id_student || !birthday || !gender || !faculty || !phone){
+                throw new Error("Invalid Data")
+            }
+                const data = await Acc_user.update(
+                    // update อะไร และ ที่ไหน 
+                    {
+                        name,
+                        id_student,
+                        birthday,
+                        gender,
+                        faculty,
+                        phone
+                    },
+                    {
+                        where: {
+                            email: email
+                        }
                     }
-                }
-            )
+                )
             if (!data) throw new Error('update fail');
             const find = await Acc_user.findOne({
                 where: {
@@ -77,13 +80,13 @@ class acc_userController {
 
     async updateFirst(req: Request, res: Response) {
         try {
-            const { email, birthday, gender} = req.body
+            const { email, birthday, gender } = req.body
             const data = await Acc_user.update(
                 // update อะไร และ ที่ไหน 
                 {
                     birthday,
                     gender,
-                    
+
                 },
                 {
                     where: {

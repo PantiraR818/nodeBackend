@@ -4,7 +4,7 @@ import Match_worry_fac_Controller from '../controllers/match_worry_fac.controlle
 
 const rout_Match_worry_fac_ = express.Router();
 
-rout_Match_worry_fac_.get("/getMatchWorryandFac/:basic_worry_id", middleware.middlewareCenter, Match_worry_fac_Controller.getMatch_worry_fac)
+rout_Match_worry_fac_.post("/getMatchWorryandFac", middleware.middlewareCenter, Match_worry_fac_Controller.getMatch_worry_fac)
 
 
 export default rout_Match_worry_fac_;
