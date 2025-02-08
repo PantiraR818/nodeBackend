@@ -11,5 +11,9 @@ rout_Save_data.post("/save_data", middleware.middlewareCenter,save_dataControlle
 
 rout_Save_data.get("/getHistory/:id_student", middleware.middlewareCenter,save_dataController.getHistory)
 
+rout_Save_data.get("/getResult/:formtype_id", middleware.middlewareCenter,save_dataController.getResult)
+
+rout_Save_data.get("/getchart/:formtype_id", middleware.middlewareCenter,save_dataController.getchart)
+
 
 export default rout_Save_data;

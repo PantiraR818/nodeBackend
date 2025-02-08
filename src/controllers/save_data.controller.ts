@@ -9,6 +9,7 @@ import Option from "../models/option"
 import Conern_Fac_Map from "../models/connern_fac_map"
 import match_worry_fac from "../models/match_worry_fac"
 import faculties from "../models/faculties"
+import Interpre from "../models/interpre"
 // step 1
 class save_dataController {
     // step 3
@@ -22,7 +23,7 @@ class save_dataController {
                 throw new Error('account not found');
             }
 
-            const saveData = await Save_data.create({ formtype_id, acc_id: findAcc.id, interpre_level, score, status_id,interpre_color });
+            const saveData = await Save_data.create({ formtype_id, acc_id: findAcc.id, interpre_level, score, status_id, interpre_color });
 
             const corncernList = concern_list.map((item: { id: number }) => ({
                 match_id: item.id,
@@ -88,7 +89,7 @@ class save_dataController {
             const findAcc = await Acc_user.findOne({ where: { id_student: req.params.id_student } })
             console.log('find -=-==-=->', findAcc)
             const data = await Save_data.findAll({
-                where:{acc_id:findAcc.id},
+                where: { acc_id: findAcc.id },
                 include: [
                     {
                         model: Form_type, // ตาราง Form_type
@@ -117,6 +118,66 @@ class save_dataController {
             res.status(200).send({ msg: "get Data Success", res: data })
         } catch (error) {
             console.log("Error At getData ", error)
+            res.status(500).send({ error: error, status: 500 })
+        }
+    }
+
+    async getResult(req: Request, res: Response) {
+        try {
+            const interpre = await Interpre.findAll({ where: { formtype_id: req.params.formtype_id } })
+            const saveData = await Save_data.findAll({ where: { formtype_id: req.params.formtype_id } })
+            let tosend = []
+
+            let countMap = {};
+
+            saveData.forEach(item => {
+                countMap[item.interpre_level] = (countMap[item.interpre_level] || 0) + 1;
+            });
+
+            tosend = interpre.map(item => ({
+                x: item.nameInterpre,
+                y: countMap[item.nameInterpre] || 0
+            }));
+
+            res.status(200).send({ msg: "get Data Success", res: tosend })
+
+        } catch (error) {
+            console.log("Error At getResult ", error)
+            res.status(500).send({ error: error, status: 500 })
+        }
+    }
+
+    async getchart(req: Request, res: Response) {
+        try {
+            const interpre = await Interpre.findAll({ where: { formtype_id: req.params.formtype_id } });
+            const saveData = await Save_data.findAll({ where: { formtype_id: req.params.formtype_id } });
+
+            let titleSet = new Set(); // ใช้ Set เก็บ title ไม่ให้ซ้ำ
+            let dataArray = []; // เก็บข้อมูล data
+
+            saveData.forEach(item => {
+                let matchedInterpre = interpre.find(i => i.nameInterpre === item.interpre_level);
+                if (matchedInterpre) {
+                    titleSet.add(matchedInterpre.nameInterpre); // เพิ่ม title แบบไม่ซ้ำ
+                    dataArray.push({
+                        x: item.createdAt,
+                        y: matchedInterpre.nameInterpre // แสดง interpre_level ที่ match กับ nameInterpre
+                    });
+                }
+            });
+
+            let result = [{
+                title: Array.from(titleSet).map(t => ({ t })), // แปลง Set เป็น Array
+                data: dataArray
+            }];
+
+            res.status(200).send({
+                msg: "get Data Success",
+                res: result
+            });
+
+        } catch (error) {
+            console.log("Error At getResult ", error)
             res.status(500).send({ error: error, status: 500 })
         }
     }
