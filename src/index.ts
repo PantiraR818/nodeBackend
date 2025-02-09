@@ -11,6 +11,8 @@ import rout_Interpre from "./routes/interpre.routes";
 import rout_Match_worry_fac_ from "./routes/match_worry_fac.routes";
 import rout_Guidancde from "./routes/guidance.routes";
 import rout_Save_data from "./routes/save_data.routes";
+import rout_Role from "./routes/role.routes";
+import rout_Manageadmin from "./routes/manageadmin.routes";
 // import authenticateToken from "./middleware/auth";
 const app = express();
 
@@ -44,6 +46,8 @@ app.use('/interpre', rout_Interpre);
 app.use('/matchWorry_Fac', rout_Match_worry_fac_);
 app.use('/guidance', rout_Guidancde);
 app.use('/save_data', rout_Save_data);
+app.use('/role', rout_Role);
+app.use('/admin', rout_Manageadmin);
 
 
 seq.authenticate().then(() => {
