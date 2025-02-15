@@ -2,8 +2,8 @@ import { Request, Response } from "express"
 import Manageadmin from "../models/manageadmin"
 import bcrypt from "bcrypt";
 import Role from "../models/role";
-
-
+import jwt from "jsonwebtoken";
+import dotenv from "dotenv";
 class manageAdmin_Controller {
 
     async createAdmin(req: Request, res: Response) {
@@ -42,14 +42,49 @@ class manageAdmin_Controller {
         }
     }
 
-      async getAdmin(req: Request, res: Response) {
-            try {
-                const data = await Manageadmin.findAll({})
-                res.status(200).send({ msg: "getAdmin Success", res: data })
-            } catch (error) {
-                console.log("Error At getAdmin ", error)
-                res.status(500).send({ error: error, status: 500 })
-            }
+    async getAdmin(req: Request, res: Response) {
+        try {
+            const data = await Manageadmin.findAll({})
+            res.status(200).send({ msg: "getAdmin Success", res: data })
+        } catch (error) {
+            console.log("Error At getAdmin ", error)
+            res.status(500).send({ error: error, status: 500 })
         }
+    }
+
+    async loginAdmin(req: Request, res: Response): Promise<void> {
+        try {
+            const { username, password } = req.body;
+    
+            // 🔹 ค้นหา Admin ตาม username
+            const admin = await Manageadmin.findOne({ where: { username } });
+            if (!admin) {
+                res.status(401).json({ msg: "Invalid username or password" });
+                return;
+            }
+    
+            // 🔹 ตรวจสอบรหัสผ่าน
+            const isMatch = await bcrypt.compare(password, admin.password);
+            if (!isMatch) {
+                res.status(401).json({ msg: "Invalid username or password" });
+                return;
+            }
+    
+            // 🔹 ถ้ารหัสผ่านถูกต้อง ส่งข้อมูล Admin กลับไป (แต่ไม่มี Token)
+            res.status(200).json({
+                msg: "Login successful",
+                admin: {
+                    id: admin.id,
+                    username: admin.username,
+                    role_id: admin.role_id,
+                }
+            });
+    
+        } catch (error) {
+            console.error("Error at loginAdmin:", error);
+            res.status(500).json({ msg: "Internal server error", error });
+        }
+    }
+
 }
 export default new manageAdmin_Controller()

@@ -10,6 +10,7 @@ import Conern_Fac_Map from "../models/connern_fac_map"
 import match_worry_fac from "../models/match_worry_fac"
 import faculties from "../models/faculties"
 import Interpre from "../models/interpre"
+const { Op } = require("sequelize");
 // step 1
 class save_dataController {
     // step 3
@@ -124,7 +125,7 @@ class save_dataController {
 
     async getResult(req: Request, res: Response) {
         try {
-            const interpre = await Interpre.findAll({ where: { formtype_id: req.params.formtype_id } })
+            const interpre = await Interpre.findAll({ where: { formtype_id: req.params.formtype_id }, order: [['min_Interpre', 'ASC']] })
             const saveData = await Save_data.findAll({ where: { formtype_id: req.params.formtype_id } })
             let tosend = []
 
@@ -149,8 +150,8 @@ class save_dataController {
 
     async getchart(req: Request, res: Response) {
         try {
-            const interpre = await Interpre.findAll({ where: { formtype_id: req.params.formtype_id } });
-            const saveData = await Save_data.findAll({ where: { formtype_id: req.params.formtype_id } });
+            const interpre = await Interpre.findAll({ where: { formtype_id: req.params.formtype_id }, order: [['min_Interpre', 'ASC']] });
+            const saveData = await Save_data.findAll({ where: { formtype_id: req.params.formtype_id, acc_id: req.params.acc_id } });
 
             let titleSet = new Set(); // ใช้ Set เก็บ title ไม่ให้ซ้ำ
             let dataArray = []; // เก็บข้อมูล data
@@ -180,6 +181,31 @@ class save_dataController {
             console.log("Error At getResult ", error)
             res.status(500).send({ error: error, status: 500 })
         }
+    }
+    async getNoti(req: Request, res: Response) {
+        try {
+            const saveData = await Save_data.findAll({
+                where: {
+                    acc_id: req.params.acc_id,
+                    interpre_level: {
+                        [Op.or]: [
+                            { [Op.like]: 'เครียดมาก' },
+                            { [Op.like]: 'เครียดมากที่สุด' },
+                            { [Op.like]: 'ซึมเศร้าระดับปานกลาง' },
+                            { [Op.like]: 'ซึมเศร้าระดับรุนแรง' },
+                            { [Op.like]: 'พลังสุขภาพจิตระดับต่ำ' }
+                        ]
+                    }
+                },
+                order: [['createdAt', 'DESC']]
+            });
+            res.status(200).send({ msg: "get Data Success", res: saveData })
+
+        } catch (error) {
+            console.log("Error At getNoti ", error)
+            res.status(500).send({ error: error, status: 500 })
+        }
+
     }
 }
 // step 2 

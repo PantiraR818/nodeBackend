@@ -3,22 +3,6 @@ import Acc_user from "../models/acc_user"
 // import jwt from 'jsonwebtoken';
 // step 1
 class acc_userController {
-
-    // setToken(findData: Acc_user) {
-    //     const payload = {
-    //         id: findData.id,
-    //         email: findData.email,
-    //         name: findData.name,
-    //         id_student: findData.id_student,
-    //         birthday: findData.birthday,
-    //         gender: findData.gender,
-    //         faculty: findData.faculty,
-    //         phone: findData.phone,
-
-    //     };
-    //     const token = jwt.sign(payload, process.env.secret, { expiresIn: '3d' });
-    //     return token
-    // }
     // step 3
     async loginAndCreate(req: Request, res: Response) {
         try {
@@ -33,7 +17,6 @@ class acc_userController {
                 res.status(200).send({ msg: "create success", res: data })
             } else {
                 console.log("---2---")
-
                 res.status(200).send({ msg: 'login success', res: findData });
             }
         } catch (error) {
@@ -45,25 +28,25 @@ class acc_userController {
     async update(req: Request, res: Response) {
         try {
             const { email, name, id_student, birthday, gender, faculty, phone } = req.body
-            if (!email || !name || !id_student || !birthday || !gender || !faculty || !phone){
+            if (!email || !birthday || !gender) {
                 throw new Error("Invalid Data")
             }
-                const data = await Acc_user.update(
-                    // update อะไร และ ที่ไหน 
-                    {
-                        name,
-                        id_student,
-                        birthday,
-                        gender,
-                        faculty,
-                        phone
-                    },
-                    {
-                        where: {
-                            email: email
-                        }
+            const data = await Acc_user.update(
+                // update อะไร และ ที่ไหน 
+                {
+                    name,
+                    id_student,
+                    birthday,
+                    gender,
+                    faculty,
+                    phone
+                },
+                {
+                    where: {
+                        email: email
                     }
-                )
+                }
+            )
             if (!data) throw new Error('update fail');
             const find = await Acc_user.findOne({
                 where: {

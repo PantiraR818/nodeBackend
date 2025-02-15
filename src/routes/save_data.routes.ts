@@ -13,7 +13,8 @@ rout_Save_data.get("/getHistory/:id_student", middleware.middlewareCenter,save_d
 
 rout_Save_data.get("/getResult/:formtype_id", middleware.middlewareCenter,save_dataController.getResult)
 
-rout_Save_data.get("/getchart/:formtype_id", middleware.middlewareCenter,save_dataController.getchart)
+rout_Save_data.get("/getchart/:formtype_id/:acc_id", middleware.middlewareCenter,save_dataController.getchart)
 
+rout_Save_data.get("/getNoti/:acc_id", middleware.middlewareCenter,save_dataController.getNoti)
 
 export default rout_Save_data;

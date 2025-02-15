@@ -8,6 +8,8 @@ rout_Manageadmin.post("/createAdmin", middleware.middlewareCenter,manageAdmin_Co
 
 rout_Manageadmin.get("/getAdmin", middleware.middlewareCenter,manageAdmin_Controller.getAdmin)
 
+rout_Manageadmin.post("/loginAdmin", middleware.middlewareCenter,manageAdmin_Controller.loginAdmin)
+
 // rout_Role.get("/getRole", middleware.middlewareCenter,role_Controller.getRole)
 
 
