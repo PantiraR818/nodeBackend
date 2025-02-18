@@ -153,24 +153,37 @@ class save_dataController {
             const interpre = await Interpre.findAll({ where: { formtype_id: req.params.formtype_id }, order: [['min_Interpre', 'ASC']] });
             const saveData = await Save_data.findAll({ where: { formtype_id: req.params.formtype_id, acc_id: req.params.acc_id } });
 
-            let titleSet = new Set(); // ใช้ Set เก็บ title ไม่ให้ซ้ำ
+            let titleSet = new Set(); // ใช้ Set เพื่อตรวจสอบซ้ำ
+            let titleList = []; // เก็บ title ที่มี min_Interpre
             let dataArray = []; // เก็บข้อมูล data
 
             saveData.forEach(item => {
                 let matchedInterpre = interpre.find(i => i.nameInterpre === item.interpre_level);
+                if (matchedInterpre && !titleSet.has(matchedInterpre.nameInterpre)) {
+                    titleSet.add(matchedInterpre.nameInterpre); // ป้องกันค่าซ้ำ
+                    titleList.push({
+                        nameInterpre: matchedInterpre.nameInterpre,
+                        min_Interpre: matchedInterpre.min_Interpre
+                    });
+                }
                 if (matchedInterpre) {
-                    titleSet.add(matchedInterpre.nameInterpre); // เพิ่ม title แบบไม่ซ้ำ
                     dataArray.push({
                         x: item.createdAt,
-                        y: matchedInterpre.nameInterpre // แสดง interpre_level ที่ match กับ nameInterpre
+                        y: matchedInterpre.nameInterpre
                     });
                 }
             });
 
+            // เรียง titleList ตาม min_Interpre จากน้อยไปมาก
+            titleList.sort((a, b) => a.min_Interpre - b.min_Interpre);
+
             let result = [{
-                title: Array.from(titleSet).map(t => ({ t })), // แปลง Set เป็น Array
+                title: Array.from(titleList).map(t => ({ t })), // แปลง Set เป็น Array
                 data: dataArray
             }];
+
+            console.log('inter ---> ', titleList);
+            console.log('result ---> ', result.map((v) => v.data))
 
             res.status(200).send({
                 msg: "get Data Success",
