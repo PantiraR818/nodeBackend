@@ -1,39 +1,40 @@
 import { AllowNull, Column, DataType, HasMany, Model, Table, Unique } from "sequelize-typescript";
 import Save_data from "./save_data";
+import Meetings from "./meetings";
 enum Gender {
     MALE = "ชาย",
     FEMALE = "หญิง",
     LGBTQ_PLUS = "LGBTQIAN+"
 }
 @Table({
-    tableName : 'acc_user', 
-    timestamps : true
+    tableName: 'acc_user',
+    timestamps: true
 })
-export default class Acc_user extends Model{
+export default class Acc_user extends Model {
     @AllowNull(false)
     @Unique
     @Column(
         DataType.STRING
     )
-    email!:string
+    email!: string
 
     @AllowNull(true)
     @Column(
         DataType.STRING
     )
-    name!:string
+    name!: string
 
     @AllowNull(true)
     @Column(
         DataType.STRING
     )
-    id_student!:string
+    id_student!: string
 
     @AllowNull(true)
     @Column(
         DataType.DATEONLY
     )
-    birthday!:Date
+    birthday!: Date
 
     @AllowNull(true)
     @Column({
@@ -41,23 +42,24 @@ export default class Acc_user extends Model{
     })
     gender!: Gender;
 
-    
+
     @AllowNull(true)
     @Column(
         DataType.STRING
     )
-    faculty!:string
+    faculty!: string
 
 
     @AllowNull(true)
     @Column(
         DataType.STRING
     )
-    phone!:string
+    phone!: string
 
 
     @HasMany(() => Save_data, { foreignKey: 'acc_id' })
-        save_data!: Save_data[];
+    save_data!: Save_data[];
 
-
+    @HasMany(() => Meetings, { foreignKey: 'acc_id' })
+    meetings!: Meetings[];
 }

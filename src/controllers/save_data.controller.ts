@@ -10,6 +10,7 @@ import Conern_Fac_Map from "../models/connern_fac_map"
 import match_worry_fac from "../models/match_worry_fac"
 import faculties from "../models/faculties"
 import Interpre from "../models/interpre"
+import Meetings from "../models/meetings"
 const { Op } = require("sequelize");
 // step 1
 class save_dataController {
@@ -23,8 +24,22 @@ class save_dataController {
             if (!findAcc) {
                 throw new Error('account not found');
             }
+            let readed = 0;
+            let viewed = 1;
+            if (interpre_level == 'เครียดมาก' || interpre_level == 'เครียดมากที่สุด' || interpre_level == 'ซึมเศร้าระดับปานกลาง' || interpre_level == 'ซึมเศร้าระดับรุนแรง' || interpre_level == 'พลังสุขภาพจิตระดับต่ำ') {
+                readed = 2
+            }
+            // interpre_level: {
+            //     [Op.or]: [
+            //         { [Op.like]: 'เครียดมาก' },
+            //         { [Op.like]: 'เครียดมากที่สุด' },
+            //         { [Op.like]: 'ซึมเศร้าระดับปานกลาง' },
+            //         { [Op.like]: 'ซึมเศร้าระดับรุนแรง' },
+            //         { [Op.like]: 'พลังสุขภาพจิตระดับต่ำ' }
+            //     ]
+            // }
 
-            const saveData = await Save_data.create({ formtype_id, acc_id: findAcc.id, interpre_level, score, status_id, interpre_color });
+            const saveData = await Save_data.create({ formtype_id, acc_id: findAcc.id, interpre_level, score, status_id, interpre_color, readed, viewed });
 
             const corncernList = concern_list.map((item: { id: number }) => ({
                 match_id: item.id,
@@ -200,6 +215,9 @@ class save_dataController {
             const saveData = await Save_data.findAll({
                 where: {
                     acc_id: req.params.acc_id,
+                    readed: {
+                        [Op.ne]: 0  // ดึงเฉพาะข้อมูลที่ readed ไม่เท่ากับ 0
+                    },
                     interpre_level: {
                         [Op.or]: [
                             { [Op.like]: 'เครียดมาก' },
@@ -212,6 +230,7 @@ class save_dataController {
                 },
                 order: [['createdAt', 'DESC']]
             });
+
             res.status(200).send({ msg: "get Data Success", res: saveData })
 
         } catch (error) {
@@ -220,6 +239,40 @@ class save_dataController {
         }
 
     }
-}
+
+
+    async updateReaded(req: Request, res: Response): Promise<void> {
+        try {
+            // // Check if acc_id exists in the request body
+            // if (!acc_id) {
+            //     res.status(400).json({ message: 'acc_id is required' });
+            //     return;
+            // }
+            // Perform the update
+            const [updatedRows] = await Save_data.update(
+                { readed: 1 }, 
+                {
+                    where: {
+                        acc_id: req.params.acc_id,
+                        readed: 2, 
+                    },
+                }
+            );
+    
+            // Handle no updates found
+            if (updatedRows === 0) {
+                res.status(200).json({ message: 'Nothing to Update', updatedRows });
+                return;
+            }
+    
+            // Return a successful response
+            res.status(200).json({ message: 'Update Success', updatedRows });
+        } catch (error) {
+            console.error("Error in updateReaded:", error);
+            res.status(500).send({ message: 'Internal Server Error', error: error.message });
+        }
+    }
+
+};
 // step 2 
 export default new save_dataController()

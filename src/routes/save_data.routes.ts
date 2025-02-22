@@ -17,4 +17,6 @@ rout_Save_data.get("/getchart/:formtype_id/:acc_id", middleware.middlewareCenter
 
 rout_Save_data.get("/getNoti/:acc_id", middleware.middlewareCenter,save_dataController.getNoti)
 
+rout_Save_data.put("/updateRead/:acc_id", middleware.middlewareCenter,save_dataController.updateReaded)
+
 export default rout_Save_data;

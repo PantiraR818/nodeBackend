@@ -1,4 +1,4 @@
-import express, {Request, Response} from "express";
+import express, { Request, Response } from "express";
 import seq from "./db";
 import cors from 'cors';
 import routAcc_User from "./routes/acc_user.routes";
@@ -13,6 +13,7 @@ import rout_Guidancde from "./routes/guidance.routes";
 import rout_Save_data from "./routes/save_data.routes";
 import rout_Role from "./routes/role.routes";
 import rout_Manageadmin from "./routes/manageadmin.routes";
+import rout_Meetings from "./routes/meetings.routes";
 // import authenticateToken from "./middleware/auth";
 const app = express();
 
@@ -48,15 +49,18 @@ app.use('/guidance', rout_Guidancde);
 app.use('/save_data', rout_Save_data);
 app.use('/role', rout_Role);
 app.use('/admin', rout_Manageadmin);
+app.use('/meeting', rout_Meetings);
 
 
 seq.authenticate().then(() => {
-    console.log('Database connected');
-    // ใช้ตอนที่จะสร้าง Table ใหม่ ค่อยมาเปิด Comment ตรงนี้ 
-    // alter:true  เพิ่มโครงสร้างใหม่ โดยไม่ลบของเก่า
-    // force:true ลบทุกอย่างแล้วสร้างใหม่ 
-    // seq.sync({alter:true}).then(() => console.log('create tables \n <--------------------> \n ', seq.models));
+    console.log('✅ Database connected');
+        // ใช้ตอนที่จะสร้าง Table ใหม่ ค่อยมาเปิด Comment ตรงนี้ 
+        // alter:true  เพิ่มโครงสร้างใหม่ โดยไม่ลบของเก่า
+        // force:true ลบทุกอย่างแล้วสร้างใหม่ 
+    // seq.sync({ alter: true }).then(() => console.log('create tables \n <--------------------> \n ', seq.models));
 }).catch((error) => console.log('error: ', error));
+
+
 
 app.listen(8080, () => {
     console.log('Server running on port 8080');
