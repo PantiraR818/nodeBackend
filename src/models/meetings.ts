@@ -1,4 +1,4 @@
-import { AllowNull, BelongsTo, Column, DataType, Model, Table, Unique } from "sequelize-typescript";
+import { AllowNull, BelongsTo, Column, DataType, Default, Model, Table, Unique } from "sequelize-typescript";
 import Form_type from "./form_type";
 import Acc_user from "./acc_user";
 
@@ -33,6 +33,13 @@ export default class Meetings extends Model {
         DataType.TEXT
     )
     description!: string
+
+    @AllowNull(false)
+    @Default(0)
+    @Column(
+        DataType.SMALLINT // TINYINT
+    )
+    readed!: number;
 
     @BelongsTo(() => Acc_user, { foreignKey: 'acc_id' })
     accUser!: Acc_user;
