@@ -39,7 +39,6 @@ export default class Manageadmin extends Model {
     phone!: string
 
 
-
     @BelongsTo(() => Role, { foreignKey: 'role_id' })
     role!: Role;
     

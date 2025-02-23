@@ -1,6 +1,6 @@
 import { AllowNull, BelongsTo, Column, DataType, HasMany, Model, Table, Unique } from "sequelize-typescript";
-import Save_data from "./save_data";
 import match_worry_fac from "./match_worry_fac";
+import Save_data from "./save_data";
 
 @Table({
     tableName: 'Conern_Fac_Map',

@@ -7,6 +7,7 @@ import Save_data from "./save_data";
 })
 
 export default class status_user extends Model {
+    
     @AllowNull(false)
     @Unique
     @Column(

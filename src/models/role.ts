@@ -14,10 +14,8 @@ export default class Role extends Model {
     )
     role!: string
 
-
-
-       @HasMany(() => Manageadmin, { foreignKey: 'role_id' })
-        manageadmin!: Manageadmin[];
+    @HasMany(() => Manageadmin, { foreignKey: 'role_id' })
+    manageadmin!: Manageadmin[];
 
 
 }

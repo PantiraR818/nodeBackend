@@ -28,7 +28,7 @@ export default class Question extends Model {
     formtype_id!: number;
 
     @HasMany(() => Question_select, { foreignKey: 'queston_id' })
-        save_data!: Question_select[];
+    save_data!: Question_select[];
 
 
 }

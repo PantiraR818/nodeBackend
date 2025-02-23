@@ -2,8 +2,8 @@ import { AllowNull, Column, DataType, HasMany, Model, Table, Unique } from "sequ
 import Question from "./question";
 import Interpre from "./interpre";
 import Guidance from "./guidance";
-import Save_data from "./save_data";
 import Option from "./option";
+import Save_data from "./save_data";
 
 @Table({
     tableName: 'form_type',

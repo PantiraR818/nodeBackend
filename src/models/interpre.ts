@@ -2,11 +2,11 @@ import { AllowNull, BelongsTo, Column, DataType, Model, Table, Unique } from "se
 import Form_type from "./form_type";
 
 @Table({
-    tableName : 'Interpre',
+    tableName: 'Interpre',
     // timestamps : true
 })
 
-export default class Interpre extends Model{
+export default class Interpre extends Model {
     @AllowNull(false)
     @Unique
     @Column(
@@ -26,7 +26,7 @@ export default class Interpre extends Model{
     )
     max_Interpre!: Number
 
-    
+
     @AllowNull(false)
     @Column(
         DataType.STRING
@@ -34,10 +34,10 @@ export default class Interpre extends Model{
     color_Progress!: string
 
     @BelongsTo(() => Form_type, { foreignKey: 'formtype_id' })
-        formType!: Form_type;
-    
-        @Column(DataType.INTEGER)
-        formtype_id!: number;
+    formType!: Form_type;
+
+    @Column(DataType.INTEGER)
+    formtype_id!: number;
 
 
 }

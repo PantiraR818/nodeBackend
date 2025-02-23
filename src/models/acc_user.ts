@@ -1,6 +1,6 @@
 import { AllowNull, Column, DataType, HasMany, Model, Table, Unique } from "sequelize-typescript";
-import Save_data from "./save_data";
 import Meetings from "./meetings";
+import Save_data from "./save_data";
 enum Gender {
     MALE = "ชาย",
     FEMALE = "หญิง",
