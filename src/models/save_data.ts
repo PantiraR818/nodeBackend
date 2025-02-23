@@ -57,7 +57,19 @@ export default class Save_data extends Model {
     @Column(
         DataType.SMALLINT // TINYINT
     )
-    readed!: number;  // 0 คือไม่แจ้งเตือน, 1 คืออ่านแล้วมฃ, 2 ยังไม่อ่าน
+    // @AllowNull(false)
+    // @Default(0)
+    // @Column(
+    //     DataType.TINYINT // TINYINT
+    // )
+    // viewed!: number;
+
+    // @AllowNull(false)
+    // @Default(0)  
+    // @Column(
+    //     DataType.TINYINT // TINYINT
+    // )
+    // readed!: number;  // 0 คือไม่แจ้งเตือน, 1 คืออ่านแล้วมฃ, 2 ยังไม่อ่าน
     
 
     @BelongsTo(() => status_user, { foreignKey: 'status_id' })
