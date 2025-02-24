@@ -109,7 +109,7 @@ class save_dataController {
                 include: [
                     {
                         model: Form_type, // ตาราง Form_type
-                        as: 'formType'    // ชื่อ alias (ถ้ากำหนดไว้ในโมเดล)
+                        as: 'formTypeRelation'    // ชื่อ alias (ถ้ากำหนดไว้ในโมเดล)
                     },
                     {
                         model: Conern_Fac_Map, // ตาราง Question_select
@@ -137,6 +137,8 @@ class save_dataController {
             res.status(500).send({ error: error, status: 500 })
         }
     }
+
+
 
     async getResult(req: Request, res: Response) {
         try {
