@@ -43,8 +43,10 @@ export default class Save_data extends Model {
     
 
     @HasMany(() => Question_select, { foreignKey: 'save_data_id' , as: 'Question_select'})
+    question_select!: Question_select[];
 
     @HasMany(() => Conern_Fac_Map,{foreignKey: 'save_data_id', as: 'Conern_Fac_Map'})
+    conern_Fac_Map!: Conern_Fac_Map[];
 
     // MYSQL เจอชื่อซ้ำซ้อนใน relation มันชนกัน
  

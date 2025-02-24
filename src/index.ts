@@ -59,25 +59,25 @@ seq.authenticate().then(async () => {
     console.log('✅ Database connected');
     // seq.sync({ alter: true }).then(() => console.log('create tables \n <--------------------> \n ', seq.models)); // <---- อันเดิม
 
-    // _________________________ สร้าง table แล้วอย่าลืม comment _________________________ 
+    // _________________________ สร้าง table แล้วอย่าลืม comment _________________________  finish  test
     const models = seq.models;
-    await models.Acc_user.sync({ alter: true }); 
-    await models.basic_worry.sync({ alter: true }); 
-    await models.faculties.sync({ alter: true }); 
-    await models.Form_type.sync({ alter: true }); 
-    await models.Guidance.sync({ alter: true }); 
-    await models.Interpre.sync({ alter: true }); 
-    await models.Role.sync({ alter: true }); 
-    await models.Manageadmin.sync({ alter: true }); 
-    await models.status_user.sync({ alter: true }); 
+    // await models.Acc_user.sync({ alter: true }); 
+    // await models.basic_worry.sync({ alter: true }); 
+    // await models.faculties.sync({ alter: true }); 
+    // await models.Form_type.sync({ alter: true }); 
+    // await models.Guidance.sync({ alter: true }); 
+    // await models.Interpre.sync({ alter: true }); 
+    // await models.Role.sync({ alter: true }); 
+    // await models.Manageadmin.sync({ alter: true }); 
+    // await models.status_user.sync({ alter: true }); 
                                                         // เปลี่ยนเป็นสร้างตามลำดับ relation
-    await models.Save_data.sync({ alter: true }); 
-    await models.match_worry_fac.sync({ alter: true }); 
-    await models.Conern_Fac_Map.sync({ alter: true }); 
-    await models.Meetings.sync({ alter: true }); 
-    await models.Option.sync({ alter: true }); 
-    await models.Question.sync({ alter: true }); 
-    await models.Question_select.sync({ alter: true }); 
+    // await models.Save_data.sync({ alter: true }); 
+    // await models.match_worry_fac.sync({ alter: true }); 
+    // await models.Conern_Fac_Map.sync({ alter: true }); 
+    // await models.Meetings.sync({ alter: true }); 
+    // await models.Option.sync({ alter: true }); 
+    // await models.Question.sync({ alter: true }); 
+    // await models.Question_select.sync({ alter: true }); 
     // _______________________________________________________________________________ 
 
 }).catch((error) => console.log('error: ', error));
