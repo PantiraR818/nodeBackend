@@ -39,7 +39,7 @@ export default class Save_data extends Model {
     @Column(
         DataType.SMALLINT // TINYINT
     )
-    readed!: number;  // 0 คือไม่แจ้งเตือน, 1 คืออ่านแล้วมฃ, 2 ยังไม่อ่าน
+    readed!: number;  // 0 คือไม่แจ้งเตือน, 1 คืออ่านแล้ว, 2 ยังไม่อ่าน
     
 
     @HasMany(() => Question_select, { foreignKey: 'save_data_id' , as: 'Question_select'})
