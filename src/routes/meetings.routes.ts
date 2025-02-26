@@ -8,7 +8,7 @@ const rout_Meetings = express.Router();
 
 rout_Meetings.post("/createMeeting", middleware.middlewareCenter,meetingsController.createMeeting)
 
-rout_Meetings.get("/getMeeting", middleware.middlewareCenter,meetingsController.getDetailMeeting)
+// rout_Meetings.get("/getMeeting", middleware.middlewareCenter,meetingsController.getDetailMeeting)
 
 
 export default rout_Meetings;

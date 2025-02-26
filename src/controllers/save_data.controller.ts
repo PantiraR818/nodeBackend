@@ -109,7 +109,7 @@ class save_dataController {
                 include: [
                     {
                         model: Form_type, // ตาราง Form_type
-                        as: 'formType'    // ชื่อ alias (ถ้ากำหนดไว้ในโมเดล)
+                        as: 'formTypeRelation'    // ชื่อ alias (ถ้ากำหนดไว้ในโมเดล)
                     },
                     {
                         model: Conern_Fac_Map, // ตาราง Question_select
@@ -137,6 +137,8 @@ class save_dataController {
             res.status(500).send({ error: error, status: 500 })
         }
     }
+
+
 
     async getResult(req: Request, res: Response) {
         try {
@@ -212,6 +214,10 @@ class save_dataController {
     }
     async getNoti(req: Request, res: Response) {
         try {
+            const meeting = await Meetings.findAll({
+                where: { acc_id: req.params.acc_id, },
+                order: [['createdAt', 'DESC']]
+            })
             const saveData = await Save_data.findAll({
                 where: {
                     acc_id: req.params.acc_id,
@@ -230,8 +236,11 @@ class save_dataController {
                 },
                 order: [['createdAt', 'DESC']]
             });
-
-            res.status(200).send({ msg: "get Data Success", res: saveData })
+            const resData = {
+                "meeting":meeting,
+                "saveData":saveData,
+            }
+            res.status(200).send({ msg: "get Data Success", res: resData })
 
         } catch (error) {
             console.log("Error At getNoti ", error)
@@ -250,23 +259,36 @@ class save_dataController {
             // }
             // Perform the update
             const [updatedRows] = await Save_data.update(
-                { readed: 1 }, 
+                { readed: 1 },
                 {
                     where: {
                         acc_id: req.params.acc_id,
-                        readed: 2, 
+                        readed: 2,
                     },
                 }
             );
-    
+            const [updatedMeeting] = await Meetings.update(
+                { readed: 0 },
+                {
+                    where: {
+                        acc_id: req.params.acc_id,
+                        readed: 1,
+                    },
+                }
+            );
+
+            const mergeRes = {
+                "save_data": updatedRows,
+                "Meeting" : updatedMeeting
+            }
             // Handle no updates found
-            if (updatedRows === 0) {
-                res.status(200).json({ message: 'Nothing to Update', updatedRows });
+            if (updatedRows === 0 && updatedMeeting == 0) {
+                res.status(200).json({ message: 'Nothing to Update', mergeRes });
                 return;
             }
-    
+
             // Return a successful response
-            res.status(200).json({ message: 'Update Success', updatedRows });
+            res.status(200).json({ message: 'Update Success', mergeRes });
         } catch (error) {
             console.error("Error in updateReaded:", error);
             res.status(500).send({ message: 'Internal Server Error', error: error.message });
