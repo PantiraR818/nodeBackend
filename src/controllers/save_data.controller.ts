@@ -25,7 +25,7 @@ class save_dataController {
                 throw new Error('account not found');
             }
             let readed = 0;
-            let viewed = 1;
+            let viewed = 0;
             if (interpre_level == 'เครียดมาก' || interpre_level == 'เครียดมากที่สุด' || interpre_level == 'ซึมเศร้าระดับปานกลาง' || interpre_level == 'ซึมเศร้าระดับรุนแรง' || interpre_level == 'พลังสุขภาพจิตระดับต่ำ') {
                 readed = 2
             }
