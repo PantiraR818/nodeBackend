@@ -59,7 +59,7 @@ seq.authenticate().then(async () => {
     console.log('✅ Database connected');
     // seq.sync({ alter: true }).then(() => console.log('create tables \n <--------------------> \n ', seq.models)); // <---- อันเดิม
 
-    // _________________________ สร้าง table แล้วอย่าลืม comment _________________________  finish  test
+    // _________________________ สร้าง table แล้วอย่าลืม comment _________________________  finish 
     const models = seq.models;
     // await models.Acc_user.sync({ alter: true }); 
     // await models.basic_worry.sync({ alter: true }); 
