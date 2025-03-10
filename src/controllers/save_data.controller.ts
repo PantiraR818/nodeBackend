@@ -18,9 +18,10 @@ class save_dataController {
     async save_data(req: Request, res: Response) {
         try {
             const { formtype_id, acc_id, question_select, interpre_level, interpre_color, score, status_id, concern_list } = req.body;
-
+            console.log('req.body ------------------------------------> ', acc_id);
             const findAcc = await Acc_user.findOne({ where: { id_student: acc_id } })
-            console.log('interpre_color ------------------------------------> ',interpre_color);
+            console.log('findAcc ------------------------------------> ', findAcc);
+            //console.log('interpre_color ------------------------------------> ',interpre_color);
             if (!findAcc) {
                 throw new Error('account not found');
             }
@@ -214,13 +215,19 @@ class save_dataController {
     }
     async getNoti(req: Request, res: Response) {
         try {
+            const find = await Acc_user.findOne({ where: { id_student: req.params.acc_id } })
+
+            if (!find) {
+                throw new Error('account not found');
+            }
+
             const meeting = await Meetings.findAll({
-                where: { acc_id: req.params.acc_id, },
+                where: { acc_id: find.id, },
                 order: [['createdAt', 'DESC']]
             })
             const saveData = await Save_data.findAll({
                 where: {
-                    acc_id: req.params.acc_id,
+                    acc_id: find.id,
                     readed: {
                         [Op.ne]: 0  // ดึงเฉพาะข้อมูลที่ readed ไม่เท่ากับ 0
                     },
@@ -237,8 +244,8 @@ class save_dataController {
                 order: [['createdAt', 'DESC']]
             });
             const resData = {
-                "meeting":meeting,
-                "saveData":saveData,
+                "meeting": meeting,
+                "saveData": saveData,
             }
             res.status(200).send({ msg: "get Data Success", res: resData })
 
@@ -279,7 +286,7 @@ class save_dataController {
 
             const mergeRes = {
                 "save_data": updatedRows,
-                "Meeting" : updatedMeeting
+                "Meeting": updatedMeeting
             }
             // Handle no updates found
             if (updatedRows === 0 && updatedMeeting == 0) {
