@@ -20,7 +20,7 @@ class save_dataController {
             const { formtype_id, acc_id, question_select, interpre_level, interpre_color, score, status_id, concern_list } = req.body;
 
             const findAcc = await Acc_user.findOne({ where: { id_student: acc_id } })
-
+            console.log('interpre_color ------------------------------------> ',interpre_color);
             if (!findAcc) {
                 throw new Error('account not found');
             }
@@ -71,7 +71,7 @@ class save_dataController {
                 include: [
                     {
                         model: Form_type, // ตาราง Form_type
-                        as: 'formType'    // ชื่อ alias (ถ้ากำหนดไว้ในโมเดล)
+                        as: 'formTypeRelation'    // ชื่อ alias (ถ้ากำหนดไว้ในโมเดล)
                     },
                     {
                         model: Acc_user,   // ตาราง Acc_user
@@ -79,7 +79,7 @@ class save_dataController {
                     },
                     {
                         model: Question_select, // ตาราง Question_select
-                        as: 'question_select',   // ชื่อ alias (ถ้ากำหนดไว้ในโมเดล)
+                        as: 'Question_select',   // ชื่อ alias (ถ้ากำหนดไว้ในโมเดล)
                         include: [
                             {
                                 model: Question,
